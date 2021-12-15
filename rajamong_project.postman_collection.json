@@ -1,0 +1,2748 @@
+{
+	"info": {
+		"_postman_id": "4ffc1a31-8e45-48ea-89cf-6941fbd43271",
+		"name": "rajamong_project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create course jwt1 (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"course_id1\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Cloud Application Development\");\r",
+							"    pm.expect(pm.response.json()[\"subject\"]).to.eq(\"Computer Science\");\r",
+							"    pm.expect(pm.response.json()[\"level\"]).to.eq(\"493\");\r",
+							"    pm.expect(pm.response.json()[\"professor\"]).to.eq(\"Professor Chaudry\");\r",
+							"    pm.expect(pm.response.json()[\"assignments\"] == []);\r",
+							"    pm.expect(pm.response.json()[\"owner\"]).to.eq(pm.environment.get(\"user_id1\"));\r",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/courses/\" + pm.response.json()[\"id\"];\r",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Cloud Application Development\",\r\n  \"subject\": \"Computer Science\",\r\n  \"level\": \"493\",\r\n  \"professor\": \"Professor Chaudry\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{user_id1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create student, not a method (405)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/students",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create course without authorization (401)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"401 status code\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"401 error message\", function () {\r",
+							"     pm.expect(pm.response.json()).to.eq(\"there is no jwt\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Cloud Application Development\",\r\n  \"subject\": \"Computer Science\",\r\n  \"level\": \"493\",\r\n  \"professor\": \"Professor Chaudry\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{user_id1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create course with incorrect authorization (401)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"401 status code\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"401 error message\", function () {\r",
+							"     pm.expect(pm.response.json()).to.eq(\"the jwt is wrong\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{invalid_jwt}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Cloud Application Development\",\r\n  \"subject\": \"Computer Science\",\r\n  \"level\": \"493\",\r\n  \"professor\": \"Professor Chaudry\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{user_id1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create course with incorrect data type (406)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 status code\", function () {\r",
+							"    pm.response.to.have.status(406);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"406 error message\", function () {\r",
+							"     pm.expect(pm.response.json()).to.eq(\"sent MIME type not supported\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/plain",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Cloud Application Development\",\r\n  \"subject\": \"Computer Science\",\r\n  \"level\": \"493\",\r\n  \"professor\": \"Professor Chaudry\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{user_id1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create course with missing attributes (400)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"400 error message\", function () {\r",
+							"     pm.expect(pm.response.json()).to.eq(\"the course is missing one or more of the required attributes\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Cloud Application Development\",\r\n  \"subject\": \"Computer Science\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{owner_auth0_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create course jwt1 (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"course_id2\", pm.response.json()[\"id\"]);\r",
+							"\r",
+							"pm.test(\"201 status code\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Machine Learning & Data Mining\");\r",
+							"    pm.expect(pm.response.json()[\"subject\"]).to.eq(\"Computer Science\");\r",
+							"    pm.expect(pm.response.json()[\"level\"]).to.eq(\"434\");\r",
+							"    pm.expect(pm.response.json()[\"professor\"]).to.eq(\"Professor Lee\");\r",
+							"    pm.expect(pm.response.json()[\"assignments\"] == []);\r",
+							"    pm.expect(pm.response.json()[\"owner\"]).to.eq(pm.environment.get(\"user_id1\"));\r",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/courses/\" + pm.response.json()[\"id\"];\r",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Machine Learning & Data Mining\",\r\n  \"subject\": \"Computer Science\",\r\n  \"level\": \"434\",\r\n  \"professor\": \"Professor Lee\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{user_id1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view all courses (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"content is valid\", function(){",
+							"   pm.expect(Object.keys(pm.response.json()).length).to.be.at.least(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a course user_id1 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Cloud Application Development\");\r",
+							"    pm.expect(pm.response.json()[\"subject\"]).to.eq(\"Computer Science\");\r",
+							"    pm.expect(pm.response.json()[\"level\"]).to.eq(\"493\");\r",
+							"    pm.expect(pm.response.json()[\"professor\"]).to.eq(\"Professor Chaudry\");\r",
+							"    pm.expect(pm.response.json()[\"assignments\"].length).to.eq(0);\r",
+							"    pm.expect(pm.response.json()[\"owner\"]).to.eq(pm.environment.get(\"user_id1\"));\r",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/courses/\" + pm.response.json()[\"id\"];\r",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a student user_id1 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/students/{{user_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"students",
+						"{{user_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a course user_id2 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"401 status code\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"401 error message\", function () {\r",
+							"     pm.expect(pm.response.json()).to.eq(\"you can not access this course\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a student user_id2 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/students/{{user_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"students",
+						"{{user_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a student with id, method not allowed (405)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/students/{{user_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"students",
+						"{{user_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a student with invalid id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 not found\", function () {",
+							"    //Check for 4XX status code",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"404 error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"you do not have access to this student\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/students/{{invalid_student_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"students",
+						"{{invalid_student_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a course with invalid data type (406)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"406 not found\", function () {",
+							"    //Check for 4XX status code",
+							"    pm.response.to.have.status(406);",
+							"});",
+							"",
+							"pm.test(\"406 error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"requested MIME type not supported\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/html",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "text/html",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a course with invalid id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 not found\", function () {",
+							"    //Check for 4XX status code",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"404 error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this course can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{invalid_course_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{invalid_course_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view all students (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"content is valid\", function(){",
+							"   pm.expect(Object.keys(pm.response.json()).length).to.be.at.least(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/students",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit a course, method not allowed (405)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"405 status code\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit a course (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"201 status code\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Senior Capstone Project\",\r\n  \"subject\": \"Computer Science\",\r\n  \"level\": \"461\",\r\n  \"professor\": \"Professor Winters\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{user_id1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit a course (303)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"303 status code\", function () {\r",
+							"    pm.response.to.have.status(303);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Calculus\",\r\n  \"subject\": \"Mathematics\",\r\n  \"level\": \"123\",\r\n  \"professor\": \"Khan Academy\",\r\n  \"assignments\": [],\r\n  \"owner\": \"{{user_id1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create an assignment #1 (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Set appropriate environment variable for assignment id",
+							"pm.environment.set(\"assignment_id1\", pm.response.json()[\"id\"]);",
+							"",
+							"pm.test(\"2XX status code\", function () {",
+							"   //Check if status code is 2XX",
+							"   pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    //Check for appropriate content including self value",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"GAE\");",
+							"    pm.expect(pm.response.json()[\"due_date\"]).to.eq(\"10/5/2021\");",
+							"    pm.expect(pm.response.json()[\"points\"]).to.eq(10);",
+							"    pm.expect(pm.response.json()[\"finished\"]).to.eq(false);",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/assignments/\" + pm.response.json()[\"id\"];",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"GAE\",\n    \"due_date\": \"10/5/2021\",\n    \"points\": 10,\n    \"finished\": true\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create an assignment #2 (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Set appropriate environment variable for load id",
+							"pm.environment.set(\"assignment_id2\", pm.response.json()[\"id\"]);",
+							"",
+							"pm.test(\"2XX status code\", function () {",
+							"   //Check if status code is 2XX",
+							"   pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    //Check for appropriate content including self value",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Use a Web API\");",
+							"    pm.expect(pm.response.json()[\"due_date\"]).to.eq(\"10/12/2021\");",
+							"    pm.expect(pm.response.json()[\"points\"]).to.eq(10);",
+							"    pm.expect(pm.response.json()[\"finished\"]).to.eq(false);",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/assignments/\" + pm.response.json()[\"id\"];",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Use a Web API\",\n    \"due_date\": \"10/12/2021\",\n    \"points\": 10,\n    \"finished\": false\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create an assignment with missing attributes (400)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {",
+							"    //Check for 4XX status code",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"400 error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"the assignment is missing one or more of the required attributes\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Build a Restful API\",\n  \"due_date\": \"10/19/2021\"\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view an assignment #1 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"GAE\");\r",
+							"    pm.expect(pm.response.json()[\"due_date\"]).to.eq(\"10/5/2021\");\r",
+							"    pm.expect(pm.response.json()[\"points\"]).to.eq(10);\r",
+							"    pm.expect(pm.response.json()[\"finished\"]).to.eq(false);\r",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/assignments/\" + pm.response.json()[\"id\"];\r",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/assignments/{{assignment_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{assignment_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view an assignment #2 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Use a Web API\");\r",
+							"    pm.expect(pm.response.json()[\"due_date\"]).to.eq(\"10/12/2021\");\r",
+							"    pm.expect(pm.response.json()[\"points\"]).to.eq(10);\r",
+							"    pm.expect(pm.response.json()[\"finished\"]).to.eq(false);\r",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/assignments/\" + pm.response.json()[\"id\"];\r",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/assignments/{{assignment_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{assignment_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view an assignment with invalid id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 not found\", function () {",
+							"    //Check for 4XX status code",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"404 error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this assignment can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/assignments/{{invalid_assignment_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{invalid_assignment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view all assignments (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"content is valid\", function(){",
+							"   pm.expect(Object.keys(pm.response.json()).length).to.be.at.least(2);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignment #1 to course_id1 (204)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"2XX status code\", function () {",
+							"    //Check for error code 2XX",
+							"    pm.response.to.have.status(204)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}/assignments/{{assignment_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}",
+						"assignments",
+						"{{assignment_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignment #2 to course_id1 (204)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"2XX status code\", function () {",
+							"    //Check for error code 2XX",
+							"    pm.response.to.have.status(204)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}/assignments/{{assignment_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}",
+						"assignments",
+						"{{assignment_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignment with invalid course id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"   //Check for error code 4XX",
+							"   pm.response.to.have.status(404)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"     //Check for error code 4XX",
+							"     pm.expect(pm.response.json()).to.eq(\"this course can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{invalid_course_id}}/assignments/{{assignment_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{invalid_course_id}}",
+						"assignments",
+						"{{assignment_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignment with invalid assignment id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"    //Check for error code 4XX",
+							"    pm.response.to.have.status(404)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this assignment can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id2}}/assignments/{{invalid_assignment_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id2}}",
+						"assignments",
+						"{{invalid_assignment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignments with invalid course id & invalid assignment id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"    //Check for error code 4XX",
+							"    pm.response.to.have.status(404)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"neither the course nor the assignment can be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{invalid_course_id}}/assignments/{{invalid_assignment_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{invalid_course_id}}",
+						"assignments",
+						"{{invalid_assignment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assignment already assigned to course (403)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"    //Check for error code 4XX",
+							"    pm.response.to.have.status(403)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this assignment is already in the course\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}/assignments/{{assignment_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}",
+						"assignments",
+						"{{assignment_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view a course after assignments assigned (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    pm.expect(pm.response.json()[\"assignments\"].length).to.eq(2);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}",
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add a course (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"course_id3\", pm.response.json()[\"id\"]);",
+							"",
+							"pm.test(\"201 status code\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Operating Systems 2\");",
+							"    pm.expect(pm.response.json()[\"subject\"]).to.eq(\"Computer Science\");",
+							"    pm.expect(pm.response.json()[\"level\"]).to.eq(\"444\");",
+							"    pm.expect(pm.response.json()[\"professor\"]).to.eq(\"Professor Jang\");",
+							"    pm.expect(pm.response.json()[\"assignments\"] == []);",
+							"    pm.expect(pm.response.json()[\"owner\"]).to.eq(pm.environment.get(\"user_id1\"));",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/courses/\" + pm.response.json()[\"id\"];",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Operating Systems 2\",\n  \"subject\": \"Computer Science\",\n  \"level\": \"444\",\n  \"professor\": \"Professor Jang\",\n  \"assignments\": [],\n  \"owner\": \"{{user_id1}}\"\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/courses",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add a assignment (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Set appropriate environment variable for load id",
+							"pm.environment.set(\"assignment_id3\", pm.response.json()[\"id\"]);",
+							"",
+							"pm.test(\"2XX status code\", function () {",
+							"   //Check if status code is 2XX",
+							"   pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    //Check for appropriate content including self value",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Advanced REST Features\");",
+							"    pm.expect(pm.response.json()[\"due_date\"]).to.eq(\"11/1/2021\");",
+							"    pm.expect(pm.response.json()[\"points\"]).to.eq(10);",
+							"    pm.expect(pm.response.json()[\"finished\"]).to.eq(false);",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/assignments/\" + pm.response.json()[\"id\"];",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Advanced REST Features\",\n    \"due_date\": \"11/1/2021\",\n    \"points\": 10,\n    \"finished\": false\n}"
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignment to newest course (401)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"401 status code\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"",
+							"pm.test(\"401 error message\", function () {",
+							"     pm.expect(pm.response.json()).to.eq(\"there is no jwt\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments/{{assignment_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments",
+						"{{assignment_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignment to newest course (401)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"401 status code\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});",
+							"",
+							"pm.test(\"401 error message\", function () {",
+							"     pm.expect(pm.response.json()).to.eq(\"the jwt is wrong\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{invalid_jwt}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments/{{assignment_id2}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments",
+						"{{assignment_id2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assign assignment #3 to course_id1 (204)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"2XX status code\", function () {",
+							"    //Check for error code 2XX",
+							"    pm.response.to.have.status(204)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments/{{assignment_id3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments",
+						"{{assignment_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view assignment #3 in course_id_3 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    pm.expect(pm.response.json()[\"assignments\"][0].id).to.eq(pm.environment.get(\"assignment_id3\"));",
+							"    pm.expect(pm.response.json()[\"assignments\"].length).to.eq(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view course_id_3 (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    pm.expect(pm.response.json()[\"assignments\"][0].id).to.eq(pm.environment.get(\"assignment_id3\"));",
+							"    pm.expect(pm.response.json()[\"assignments\"].length).to.eq(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit an assignment (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"201 status code\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"content is valid\", function () {\r",
+							"    pm.expect(pm.response.json()[\"title\"]).to.eq(\"Quiz 1\");\r",
+							"    pm.expect(pm.response.json()[\"due_date\"]).to.eq(\"11/1/2021\");\r",
+							"    pm.expect(pm.response.json()[\"points\"]).to.eq(10);\r",
+							"    pm.expect(pm.response.json()[\"finished\"]).to.eq(false);\r",
+							"    const self_url = pm.environment.get(\"app_url\") + \"/assignments/\" + pm.response.json()[\"id\"];\r",
+							"    pm.expect(pm.response.json()[\"self\"]).to.eq(self_url);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Quiz 1\",\r\n  \"due_date\": \"11/1/2021\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments/{{assignment_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{assignment_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit an assignment with invalid id (200)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 not found\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"404 error message\", function () {\r",
+							"     pm.expect(pm.response.json()).to.eq(\"this assignment can not be found\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Quiz 1\",\r\n  \"due_date\": \"11/1/2021\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments/{{invalid_assignment_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{invalid_assignment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit an assignment with missing attributes (400)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"400 status code\", function () {\r",
+							"    //Check for 4XX status code\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"400 error message\", function () {\r",
+							"     //Check for appropriate error message\r",
+							"     pm.expect(pm.response.json()).to.eq(\"the content is invalid\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Lab 1\",\r\n    \"points\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments/{{assignment_id3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{assignment_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit an assignment (201)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"201 status code\", function () {\r",
+							"    //Check for 4XX status code\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Beginner REST Features\",\r\n    \"due_date\": \"12/1/2021\",\r\n    \"points\": 12,\r\n    \"finished\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{app_url}}/assignments/{{assignment_id3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{assignment_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove assignment with an invalid course id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"    //Check for appropriate status 4XX code",
+							"    pm.response.to.have.status(404)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this course can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{invalid_course_id}}/assignments/{{assignment_id3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{invalid_course_id}}",
+						"assignments",
+						"{{assignment_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove assignment with an invalid assignment id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"    //Check for appropriate 4XX status code",
+							"    pm.response.to.have.status(404)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"    //Check for appropriate error message",
+							"    pm.expect(pm.response.json()).to.eq(\"this assignment can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments/{{invalid_assignment_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments",
+						"{{invalid_assignment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove assignment with an invalid course id & invalid assignment id (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"    //Check for appropriate 4XX status code",
+							"    pm.response.to.have.status(404)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"neither the course nor the assignment can be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{invalid_course_id}}/assignments/{{invalid_assignment_id}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{invalid_course_id}}",
+						"assignments",
+						"{{invalid_assignment_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove assignment #1 from course_id1 (204)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"2XX status code\", function () {",
+							"    //Check for apprropriate status code 2XX",
+							"    pm.response.to.have.status(204)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}/assignments/{{assignment_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}",
+						"assignments",
+						"{{assignment_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view assignment_id1 after removal (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 not found\", function () {",
+							"    //Check for 4XX status code",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"404 error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this assignment can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/assignments/{{assignment_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"assignments",
+						"{{assignment_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove assignment that is not in course (403)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"4XX status code\", function () {",
+							"    //Check for appropriate 4XX status code",
+							"    pm.response.to.have.status(404)",
+							"});",
+							"",
+							"pm.test(\"4XX error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this assignment can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments/{{assignment_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments",
+						"{{assignment_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove assignment #3 from course_id_3 (204)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"2XX no content\", function () {",
+							"    //Check for appropriate 2XX status code",
+							"    pm.response.to.have.status(204)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments/{{assignment_id3}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments",
+						"{{assignment_id3}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view assignments in course_id3 (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"200 status code\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"content is valid\", function () {",
+							"    pm.expect(pm.response.json()[\"assignments\"].length).to.eq(0);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id3}}/assignments",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id3}}",
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove course_id1 (204)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"2XX no content\", function () {",
+							"    //Check for appropriate 2XX error message",
+							"    pm.response.to.have.status(204)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view course_id1 after removal (404)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"404 not found\", function () {",
+							"    //Check for 4XX status code",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"404 error message\", function () {",
+							"     //Check for appropriate error message",
+							"     pm.expect(pm.response.json()).to.eq(\"this course can not be found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{app_url}}/courses/{{course_id1}}",
+					"host": [
+						"{{app_url}}"
+					],
+					"path": [
+						"courses",
+						"{{course_id1}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

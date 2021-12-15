@@ -1,0 +1,401 @@
+{
+	"info": {
+		"_postman_id": "6eaa253e-7814-4a00-85c2-e7cfc8db9e5a",
+		"name": "hw2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Confirm that there are at least 30 public Gists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let gistsReturned = pm.response.json();\r",
+							"\r",
+							"pm.test(\"your test name\", function() {\r",
+							"    pm.expect(gistsReturned.length).to.eql(30);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. Confirm that the user wolfordj has at least one public Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let gistsReturned = pm.response.json();\r",
+							"\r",
+							"\r",
+							"let gistsReturned = JSON.parse(responseBody);\r",
+							"\r",
+							"pm.test(\"confirms 'wolfordj' has public gist\", function() {\r",
+							"    gistsReturned.length >= 1;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. (PART 1) Confirm that when a Gist is created the number of Gists associated with the token you used increases by 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let gistsReturned = JSON.parse(responseBody);\r",
+							"let tempHold = [];\r",
+							"let count = 0\r",
+							"\r",
+							"for (let x in gistsReturned)\r",
+							"{\r",
+							"    tempHold.push(gistsReturned[x]);\r",
+							"}\r",
+							"\r",
+							"count = tempHold.length;\r",
+							"\r",
+							"pm.globals.set(\"totalGists\", count);\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. (PART 2) Confirm that when a Gist is created the number of Gists associated with the token you used increases by 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\\r\\n  \\\"description\\\": \\\"create new gist\\\",\\r\\n  \\\"public\\\": true,\\r\\n  \\\"files\\\": {\\r\\n    \\\"createnewgist.txt\\\": {\\r\\n      \\\"content\\\": \\\"create new gist\\\"\\r\\n    }\\r\\n  }\\r\\n}"
+				},
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. (PART 3) Confirm that when a Gist is created the number of Gists associated with the token you used increases by 1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "4. Confirm that the contents of the Gist you created match the contents you sent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let gistsReturned = JSON.parse(responseBody);\r",
+							"\r",
+							"console.log(\"step four of assignment\");\r",
+							"console.log(\"gist file: \" + globals.gistFile);\r",
+							"console.log(\"gists returned file: \" + JSON.stringify(gistReturned.files));\r",
+							"\r",
+							"let fileData = JSON.stringify(gistReturned.files);\r",
+							"\r",
+							"pm.test(\"confirms that the contents match\", function() {\r",
+							"    fileData === globals.gistFile;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. (PART 1) Confirm that you are able to edit the contents of a Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"edit gist\",\r\n    \"files\": \"editgist.txt\",\r\n    \"content\": \"edit gist\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.github.com/gists{{gistID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists{{gistID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. (PART 2) Confirm that you are able to edit the contents of a Gist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let gistsReturned = JSON.parse(responseBody);\r",
+							"\r",
+							"function confirmEdits(gistsReturned)\r",
+							"{\r",
+							"    if(gistsReturned.files[\"edittingfile.txt\"].filename == \"edittingfile.txt\")\r",
+							"    {\r",
+							"        return true\r",
+							"    }\r",
+							"\r",
+							"    if(gistsReturned.files[\"edittingfile.txt\"].description == \"editting description\")\r",
+							"    {\r",
+							"        return true\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.test(\"confirms that edits were made\", function() {\r",
+							"    confirmEdits(gistsReturned) === true;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/gists/{{gistID}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"gists",
+						"{{gistID}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. (PART 1) Confirm that you can add a star to a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "6. (PART 2) Confirm that you can add a star to a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "6. (PART 3) Confirm that you can add a star to a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "7. Confirm that the list of all starred Gists associated with the token contain the Gist you starred in #6",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "8. (PART 1) Confirm that you can remove a star from a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "8. (PART 2) Confirm that you can remove a star from a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "8. (PART 3) Confirm that you can remove a star from a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "9. (PART 1) Confirm you can delete a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "9. (PART 2) Confirm you can delete a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "9. (PART 3) Confirm you can delete a Gist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}

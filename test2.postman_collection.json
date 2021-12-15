@@ -1,0 +1,739 @@
+{
+    "info": {
+        "_postman_id": "fd657f49-6bb3-4bbe-a4d7-1b7da6ee74a9",
+        "name": "Final",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [{
+            "name": "User",
+            "item": [{
+                    "name": "Login User (admin)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"email\": \"hoskinsc@example.edu\",\n\t\"password\": \"hunter2\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/users/login",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "users",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login User (instructor)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"email\": \"john.doe@example.edu\",\n\t\"password\": \"hunter2\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/users/login",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "users",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create User",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Stanley Hudson\",\n    \"email\": \"stanley.hudson@example.edu\",\n    \"role\": \"student\",\n    \"password\": \"hunter2\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/users",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login User (student)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"email\": \"stanley.hudson@example.edu\",\n\t\"password\": \"hunter2\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/users/login",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "users",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login User (student bob)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n\t\"email\": \"bob.vance@example.edu\",\n\t\"password\": \"hunter2\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/users/login",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "users",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User by ID (student) (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2UwNzc5ZmFlNGU1ZDMwZGQ4MTIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU5MTc3OTQ0OCwiZXhwIjoxNTkxODY1ODQ4fQ.EuiddE0HyLNXiAmFxha6PgZhcSDmPiPm9KYWtxufr1k",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/users/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "users",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed87e0779fae4e5d30dd812"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get User by ID (instructor) (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2RlZmMxZjM4OTNlYTE1Nzk4MjciLCJyb2xlIjoiaW5zdHJ1Y3RvciIsImlhdCI6MTU5MTc3NjMzNiwiZXhwIjoxNTkxODYyNzM2fQ.RYvLF3H-n4eClyK_b1O-4HwmbdXyqPUmedYD1oCvq6U",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/users/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "users",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed87defc1f3893ea1579827"
+                            }]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "protocolProfileBehavior": {}
+        },
+        {
+            "name": "Course",
+            "item": [{
+                    "name": "Get all courses",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/courses",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Make a course (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "  {\r\n    \"subject\": \"ART\",\r\n    \"number\": \"001\",\r\n    \"title\": \"Intro to Pencils\",\r\n    \"term\": \"Summer 2020\",\r\n    \"instructorId\": \"5ed87defc1f3893ea1579827\"\r\n  }",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/courses",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Course by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/courses/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed8d947d3b79896da3daa16"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Patch course (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": " {\r\n    \"subject\": \"CS\",\r\n    \"number\": \"042\",\r\n    \"title\": \"Python for dummies\",\r\n    \"term\": \"Summer 2020\",\r\n    \"instructor\": \"5ed87defc1f3893ea1579827\"\r\n  }",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/courses/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed8d95f46e3cd915a1bea83"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete course (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/courses/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed8d947d3b79896da3daa16"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "get enrolled students (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/courses/:id/students",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses",
+                                ":id",
+                                "students"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed8d947d3b79896da3daa16"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update enrollment (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"add\": [\"5ed87e0f05b806ac872cc522\"],\r\n    \"remove\": [\"5ed87e0779fae4e5d30dd812\"]\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/courses/:id/students",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses",
+                                ":id",
+                                "students"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed8d95f46e3cd915a1bea83"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get csv roster (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/courses/:id/roster",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses",
+                                ":id",
+                                "roster"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed8d947d3b79896da3daa16"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get assignments",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/courses/:id/assignments",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "courses",
+                                ":id",
+                                "assignments"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5ed8d95f46e3cd915a1bea83"
+                            }]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "protocolProfileBehavior": {}
+        },
+        {
+            "name": "Assignment",
+            "item": [{
+                    "name": "Create assignment (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "  {\r\n    \"courseId\": \"5ed8d947d3b79896da3daa16\",\r\n    \"title\": \"Prove The Riemann Hypothesis\",\r\n    \"due\": \"2020-12-05T11:26:19+0000\",\r\n    \"points\": \"1\"\r\n  }",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/assignments",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "assignments"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get assignment by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/assignments/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "assignments",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5edf0e272409deff7be72d9b"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Patch assignment (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "  {\r\n    \"title\": \"Hello World\",\r\n    \"due\": \"2020-12-05T11:26:19+0000\",\r\n    \"points\": \"10000000\"\r\n  }",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/assignments/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "assignments",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5edf0e272409deff7be72d9b"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete assignment (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE3NzA5NjUsImV4cCI6MTU5MTg1NzM2NX0.j-KO7Z_33QlyFwy_R9M4A1fu1ZNcjHPjFDf3675AQBo",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "localhost:8000/assignments/:id",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "assignments",
+                                ":id"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5edf0e2ee3438e83e3794b64\n"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Submit Assignment (auth)",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2UwZjA1YjgwNmFjODcyY2M1MjIiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTU5MTY3ODgwMywiZXhwIjoxNTkxNzY1MjAzfQ.FMeS-2OFvM8AgPIIeBu-Rq7AJ0KEpV6nnWFedohz3OU",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "POST",
+                        "header": [{
+                            "key": "",
+                            "value": "",
+                            "type": "text"
+                        }],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [{
+                                    "key": "studentId",
+                                    "value": "5edf0c815ee226001247f7f8",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "assignmentId",
+                                    "value": "5edf0e17ab913d59a01c3734",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "file",
+                                    "type": "file",
+                                    "src": "/home/hoskinsc/Documents/cloud/final-project-clout-dev/CS 493 Final Project.docx"
+                                },
+                                {
+                                    "key": "courseId",
+                                    "value": "5ed8d947d3b79896da3daa16",
+                                    "type": "text"
+                                }
+                            ],
+                            "options": {
+                                "formdata": {}
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/assignments/:id/submissions",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "assignments",
+                                ":id",
+                                "submissions"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5edf0e17ab913d59a01c3734"
+                            }]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "View Submissions (auth)",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [{
+                                "key": "token",
+                                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ4N2MxYWViNTc0YjQzMDQyYzY1YWIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE1OTE2ODAwMzksImV4cCI6MTU5MTc2NjQzOX0.Akyd4pvaQbncYdbX4udzPUTNa5SolfpXxEbDSUPh6RE",
+                                "type": "string"
+                            }]
+                        },
+                        "method": "GET",
+                        "header": [{
+                            "key": "",
+                            "type": "text",
+                            "value": ""
+                        }],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [],
+                            "options": {
+                                "formdata": {}
+                            }
+                        },
+                        "url": {
+                            "raw": "localhost:8000/assignments/:id/submissions",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8000",
+                            "path": [
+                                "assignments",
+                                ":id",
+                                "submissions"
+                            ],
+                            "variable": [{
+                                "key": "id",
+                                "value": "5edf0e17ab913d59a01c3734"
+                            }]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "protocolProfileBehavior": {}
+        }
+    ],
+    "protocolProfileBehavior": {}
+}

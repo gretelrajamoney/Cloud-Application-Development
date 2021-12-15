@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "hw8-rajamong",
+  "private_key_id": "011452eed929d5db0596fa0758484ba7b518868e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCeypjI6qsryZpA\nDWtZqWRZ5a1Kn7b8m8GMPxfL86LBLObJw8gVXg4yufxUCZnpbnI79FFlS3Sx/R4f\nDdOvTXCqWSTJdVjvfVtrGndgJVL7yI4JCCouSUy9s1hS47iF3wJhCY6RWsyy5wnt\nv6pWSN6CfPmkscs/bIVJlcNyRwNH6LqU/qvEjJNS140uWT8Ym/cNhxm94dGX+c5Z\nvlTEfKPiXDhNc+sB1ZafOhk7o6eDkLNjRVOmM2JGEf872bfxfV9wp3xbTgULnyx3\n4gCT3wxHV57ZR5JIzSbmeMtrlEaFIYIm6RHQeCL5VyJg3yaj/+vkpBji0zPKNboq\npl855CUHAgMBAAECggEAJ7mgknce3oP/mnGg/xvhFppeiZI+WaDvwVHRdr0bZP+C\nN0zLBAl1PNyJk06Zmiv+2R/ssw43AgZEYFl5sVwKyRsnGF1KpBN06O0Em2GLCqFo\nYzsPLmg5EiZJfOcqdRdPBY66A4Q3PLSPJ9Lw3sg5HmT8oWa3ZcUU7U1RyYeZewYJ\nZNnYjTiMNXoJ5aJ+OmOEX+sOb74YSH+1AcHBvf2UPYoRMD0SNxOMOzxzCiaJWnZc\nN+f7DdqeDS0JmAo9Zo6HMspamnTwkoblSSew1QPodM1mHgnTDf1YkWObs+WRYuC2\nbmtghBp5O9jQuqcCzLmB+lYEZzVsjNEuAyYaXxv2xQKBgQDZ1QwIY87THM9Ve1z+\n+f3arCVh7Gg9CRkE1GFJRf8udxz8yGdxU81Tce/FNTleOm2IFjwgs3IIUvy/jYqp\nTH5guB1R+YqIfAZVW0YlSFdkuTSWMp8VviLQLNXdgTHWGwmDFAIeXFU/9u9CRjp5\nwYARFMNGy9XcDIIrK11jxqd5fQKBgQC6nT/p4c4piwH1VDe3+41uUuqXzggS2c9c\noRMCzRAOJ1Q01wa05s0Cl8J5VU/OB0olkv/UylXtoV+TPvu52wuRcObUKAOw6FMG\nZ+hrlscsQXNkiGYoFpWYOO1aLOlnB/86SbvddCrsN3gk4Gotlm5LKFDy/CzaK0zy\nHij5Hs5/0wKBgA8px2amG/WSIdSfe7+8AzG/nfKNFEx7X6R4bDU/jB3d6MSn5pt6\n6+YNHlWp+M5YXtuEQLc+BogRzso+vhI+4uU0q8XTCxOpHn++lMlvmbXHNqPl7jED\nRUUced6raZ6vzx+yutsGLmD/fXQtk1B6acHGojlBYyeoLz92C1AwueO5AoGAG8ka\nIRrL9YeLDRozCaPc1RZnc57ruNLReztId1xNDa5xbUSu7PSIheBOxn4bWdPgCGQw\nz2ApFy616liwZmXk/QzQcbpbglW1Nvj1tD9I/J/qLIfanhFuyLGBNbIGNp8MM4OT\nA1Auq+k+bE81v//sACjKlMNTclCMLmirNRyPJp0CgYEAmchCzT9VlDT07mCiVmWj\npQwW4Ew+B4MJdG4gUE5hNnFY4tJF6kJXKvFmipbkQv2cbBYSxV2CKAvfb7qAE6pY\nrbHhEkRCYyhpDEbMcgMr7mmzxfSWTb8dFdZp2LzBdsO4aYONDAC7uvu841d14Dr1\nl4c/r9aRYFDTQscrZtdx6Ic=\n-----END PRIVATE KEY-----\n",
+  "client_email": "gretelserviceaccount@hw8-rajamong.iam.gserviceaccount.com",
+  "client_id": "111064192029728449732",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gretelserviceaccount%40hw8-rajamong.iam.gserviceaccount.com"
+}
